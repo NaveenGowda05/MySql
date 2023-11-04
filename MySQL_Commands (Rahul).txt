@@ -1,0 +1,1012 @@
+to create database 
+CREATE DATABASE employeesdb;  
+CREATE DATABASE employeesdb1;
+
+We can review the newly created database using the below query that returns the database name, character set, and collation of the database:  
+SHOW CREATE DATABASE employeesdb;
+
+using workbench click on the icon create new schema give the name and click on create 
+
+Note: All the database names, table names and table fields name are case sensitive. You must have to use proper names while giving any SQL command.
+
+
+-----------------------Access database----------------------
+to access the database
+USE emplyeedb;  
+
+
+
+--------------------List Database--------------------------
+see a list of databses:
+SHOW DATABASES;  
+
+show databses which ends with s
+SHOW DATABASES LIKE "%s"; 
+
+show databses with the exact name 
+show databases like "practise"; 
+
+Show database with starting matching characters
+show databases like "prac%"; 
+
+
+
+-------------------Delete Database--------------------------
+Delete database
+
+DROP DATABASE employeesdb1;  
+using mysql work bench connect to db rightclick on the particular database click on drop schema
+
+
+---------------------Create Table in database------------------------
+Create a table inside the database 
+use emplyeedb;
+
+
+ID int NOT NULL UNIQUE,
+
+
+
+
+CREATE TABLE employee_table(  
+    id int NOT NULL AUTO_INCREMENT,  
+    name varchar(45) NOT NULL,  
+    occupation varchar(35) NOT NULL,  
+    age int NOT NULL,  
+    PRIMARY KEY (id)  
+);  
+
+ SHOW TABLES; 
+ 
+ DESC employee_table;
+ 
+==> show how to create table from workbench database==> tables ==> right click ==> create table 
+
+
+-----------------------Alter/Change Table in database----------------------
+ALTER TABLE employee_table  
+ADD cus_age varchar(40) NOT NULL;  
+
+DESC employee_table;
+
+SELECT* FROM employee_table;  
+
+**********Add Multiple columns*******
+ALTER TABLE employee_table  
+ADD cus_address varchar(100) NOT NULL  
+AFTER occupation,  
+ADD cus_salary int(100) NOT NULL  
+AFTER cus_age ;
+
+DESC employee_table;
+
+**********Alter datatypes**********
+
+ALTER TABLE employee_table  
+MODIFY cus_address varchar(50) NULL; 
+
+
+DESC employee_table;
+
+
+*************Drop a particular coulmn from a table******************
+
+ALTER TABLE employee_table  
+DROP COLUMN cus_address;  
+
+DESC employee_table;
+
+
+*************Change the particular column to other one*****
+
+ALTER TABLE  employee_table  
+CHANGE COLUMN cus_salary cus_salary_yearly  
+varchar(20) NOT NULL;  
+
+
+***********Rename the table **********
+
+ALTER TABLE employee_table  
+RENAME TO dummy_emp;  
+
+Show tables;
+
+or
+
+RENAME table dummy_emp TO employee_table;  
+
+Show tables;
+
+----------------------Show Tables------------------------
+
+show tables employee_table;
+
+SHOW TABLES IN dashboard; |  SHOW TABLES FROM dashboard; ==> if you want to view the table from another database
+
+------------------------Describe the table 
+
+DESC employee_table;  
+DESCRIBE employee_table;
+
+SHOW FULL COLUMNS FROM employee_table;
+
+
+-----------------------Drop tables-----------------
+
+DROP TABLE  employee_table; 
+
+work bench ==> right click on table==> drop table and drop;
+
+DROP TABLE IF EXISTS table_name1, table_name2, table, ......., table_nameN;  
+
+ALTER TABLE employee_table DROP COLUMN cus_salary_yearly;  
+
+TRUNCATE Table vs. DROP Table
+
+
+
+
+---------------------Copying data from one database to another-------------------------
+CREATE DATABASE new_name;
+USE new_name;
+CREATE TABLE new_name.table_name LIKE old_name.table_name;
+INSERT INTO new_name.table_name SELECT * FROM old_name.table_name;
+
+
+CREATE TABLE IF NOT EXISTS duplicate_table   
+SELECT * FROM original_table WHERE Year = '2016';  
+
+
+CREATE TABLE duplicate_table LIKE original_table;  
+ 
+INSERT duplicate_table SELECT * FROM original_table;  
+
+---------------Insert Queries-------------------
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Cardinal', 'Stavanger', 'Norway');
+
+
+-------------Select Queries---------------------
+SELECT DISTINCT name FROM java;
+
+SELECT COUNT(*) FROM java;
+
+SELECT COUNT(DISTINCT name) FROM java;
+
+SELECT * FROM java
+WHERE name='rahu;';
+
+SELECT * FROM java
+WHERE id=1;
+
+SELECT * FROM java
+WHERE name='rahul' AND City='Bangalore';
+
+SELECT * FROM java
+WHERE City='Bangalore' OR City='Mysore';
+
+SELECT * FROM java
+WHERE NOT name='rahul';
+
+SELECT * FROM java
+WHERE name='rahul' AND (City='Bangalore' OR City='Mysore');
+
+SELECT * FROM java
+WHERE NOT name='rahul' AND NOT name='Bangalore';
+
+-----------SELECT ORder by :-------------
+
+
+SELECT * FROM java ORDER BY name;
+
+SELECT * FROM java ORDER BY name DESC;
+
+SELECT * FROM java ORDER BY name ASC;
+
+SELECT CustomerName, ContactName, Address FROM java WHERE Address IS NULL;
+
+SELECT CustomerName, ContactName, Address FROM java WHERE Address IS NOT NULL;
+
+SELECT CustomerName, ContactName, Address FROM Customers WHERE Address IS NULL;
+
+SELECT CustomerName, ContactName, Address FROM Customers WHERE Address IS NOT NULL;
+
+SELECT TOP 3 * FROM Customers; // first 3 records of a table\
+
+SELECT MIN(Price) AS SmallestPrice FROM Products;
+
+SELECT MAX(Price) AS LargestPrice FROM Products;
+
+SELECT COUNT(ProductID) FROM Products;
+
+SELECT AVG(Price) FROM Products;
+
+SELECT SUM(Quantity) FROM OrderDetails;
+
+SELECT * FROM Customers WHERE CustomerName LIKE 'a%';
+
+SELECT * FROM Customers WHERE CustomerName LIKE '%a';
+
+SELECT * FROM Customers WHERE CustomerName LIKE '%or%';
+
+SELECT * FROM Customers WHERE ContactName LIKE 'a%o'; // starts with a and ends with occupation
+
+SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
+
+SELECT * FROM Customers WHERE Country NOT IN ('Germany', 'France', 'UK');
+
+SELECT * FROM Customers WHERE Country IN (SELECT Country FROM Suppliers);
+
+SELECT * FROM Products WHERE Price NOT BETWEEN 10 AND 20;
+
+SELECT CustomerID AS ID, CustomerName AS Customer FROM Customers;
+
+SELECT name, Address + ', ' + marks AS details FROM java;
+
+UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+
+UPDATE Customers SET ContactName='Juan' WHERE Country='Mexico';  // Multiple records
+
+UPDATE Customers SET ContactName='Juan'; //be careful
+
+
+
+-----------Update by :-------------
+
+UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+
+UPDATE Customers
+SET ContactName='Juan';
+
+SQL statement will update the ContactName to "Juan" for all records where country is "Mexico"
+--> UPDATE Customers SET ContactName='Juan' WHERE Country='Mexico';
+
+Be careful when updating records. If you omit the WHERE clause, ALL records will be updated!
+UPDATE Customers SET ContactName='Juan';
+
+-----------Delete by :-------------
+
+DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+
+SQL statement deletes all rows in the "Customers" table, without deleting the table:
+DELETE FROM table_name;
+
+
+--------------------remove data from the table----------------------------------------
+CREATE TABLE customer (    
+    Id int PRIMARY KEY NOT NULL,     
+    Name varchar(45) NOT NULL,     
+    Product varchar(45) DEFAULT NULL,     
+    Country varchar(25) DEFAULT NULL,     
+    Year int NOT NULL    
+);    
+
+INSERT INTO customer ( Id, Name, Product, Country, Year)     
+VALUES (1, 'Stephen', 'Computer', 'USA', 2015),     
+(2, 'Joseph', 'Laptop', 'India', 2016),     
+(3, 'John', 'TV', 'USA', 2016),    
+(4, 'Donald', 'Laptop', 'England', 2015),    
+(5, 'Joseph', 'Mobile', 'India', 2015),    
+(6, 'Peter', 'Mouse', 'England', 2016);  
+
+SELECT * FROM customer; 
+
+TRUNCATE TABLE customer;  
+
+----------------Unique Key------------------
+CREATE TABLE Persons2 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    UNIQUE (ID)
+);
+
+INSERT INTO Persons2 ( Id, LastName, FirstName, Age) VALUES (2, 'Stephen', 'Computer', 24);
+
+ALTER TABLE Persons ADD UNIQUE (ID);
+
+ALTER TABLE Persons2 ADD UNIQUE (LastName);
+
+--------------------------Primary Key------------------
+CREATE TABLE students (
+    id int PRIMARY KEY,
+    name varchar(50),
+    age int,
+    email varchar(100)
+);
+
+INSERT INTO students ( id, name, age, email) VALUES ( 'rahul', 24,'rahul@gmail.com');
+
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+DROP PRIMARY KEY;
+
+
+----------------Foreign Key------------------
+
+CREATE TABLE Department(
+    DeptNo int PRIMARY KEY,
+    DName varchar(266),
+    Location varchar(266)
+);
+
+CREATE TABLE Employee(
+    EmpNo int,
+    EmpName varchar(266),
+    Salary int,
+    DeptNo int,
+    FOREIGN KEY (DeptNo) REFERENCES Department(DeptNo)
+);
+
+-- Adding a department
+INSERT INTO Department (DeptNo, DName, Location)
+VALUES (1, 'Sales', 'New York');
+
+-- Adding employees
+INSERT INTO Employee (EmpNo, EmpName, Salary, DeptNo)
+VALUES (1001, 'John Doe', 50000, 1);
+
+INSERT INTO Employee (EmpNo, EmpName, Salary, DeptNo)
+VALUES (1002, 'Jane Smith', 60000, 1);
+
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+--------------------Check--------------
+CREATE TABLE Persons5 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255),
+    CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+);
+
+INSERT INTO Persons(Id, Name, Age) VALUES (1,'Robert', 28), (2, 'Joseph', 35), (3, 'Peter', 40);  
+  
+INSERT INTO Persons(Id, LastName,FirstName, Age,City) VALUES (1,'Robert','abc', 15,'Sandnes');  
+
+-- alter Check
+ALTER TABLE Persons
+ADD CONSTRAINT CHK_PersonAge CHECK (Age>=18 AND City='Sandnes');
+
+-- Drop Check
+ALTER TABLE Persons
+DROP CHECK CHK_PersonAge;
+
+--
+SHOW Check FROM Persons5;
+
+---------------Defaults---------------------
+CREATE TABLE Persons6 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Bangalore'
+);
+
+INSERT INTO Persons6(Id, LastName,FirstName, Age) VALUES (1,'Robert''sadgj', 28)); 
+
+CREATE TABLE Orders (
+    ID int NOT NULL,
+    OrderNumber int NOT NULL,
+    OrderDate date DEFAULT CURRENT_DATE()
+);
+
+ALTER TABLE Persons6 ALTER City SET DEFAULT 'Mysore';
+
+--Drop DEFAULT
+ALTER TABLE Persons6 ALTER City DROP DEFAULT;
+
+---------------Auto Increment-------------
+
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
+
+ALTER TABLE Persons AUTO_INCREMENT=100;
+
+INSERT INTO Persons (FirstName,LastName)
+VALUES ('Majukar','Rahul');
+
+-------------------ENUMS-------------------
+
+mysql> CREATE TABLE Shirts (id INT PRIMARY KEY AUTO_INCREMENT,name VARCHAR(35),size ENUM('small', 'medium', 'large', 'x-large'));  
+
+
+--Insert Records
+INSERT INTO Shirts(id, name, size)VALUES (1,'t-shirt', 'medium'),(2, 'casual-shirt', 'small'),(3, 'formal-shirt', 'large');  
+
+
+------------------Index ---------------------
+use tha above table with data 
+CREATE INDEX idx_name ON Shirts(name);
+SELECT * FROM Shirts USE INDEX(idx_name); 
+
+SHOW INDEX FROM tablename;
+SHOW INDEX FROM Employees;
+
+DESCRIBE tablename.indexname;
+DESCRIBE Employees.idx_hire_date;
+
+
+ALTER TABLE tablename RENAME INDEX oldname TO newname;
+
+ALTER TABLE tablename DROP INDEX indexname;
+
+
+
+-------------------JOINS
+
+CREATE TABLE students1 (
+  student_id INT AUTO_INCREMENT PRIMARY KEY,
+  fname VARCHAR(50) NOT NULL,
+  lname VARCHAR(50) NOT NULL,
+  city VARCHAR(50) NOT NULL
+);
+
+INSERT INTO students1 (fname, lname, city) VALUES
+('John', 'Doe', 'New York'),
+('Jane', 'Doe', 'Los Angeles'),
+('Bob', 'Smith', 'Chicago')
+('rahul', 'Majukar', 'Bangalore');
+
+INSERT INTO students1 (fname, lname, city) VALUES('rahul', 'Majukar', 'Bangalore');
+
+CREATE TABLE courses (
+  course_id INT AUTO_INCREMENT PRIMARY KEY,
+  branch VARCHAR(50) NOT NULL,
+  course_name VARCHAR(50) NOT NULL,
+  student_id INT NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES students1(student_id)
+);
+
+INSERT INTO courses (branch, course_name, student_id) VALUES
+('Computer Science', 'Database Systems', 1),
+('Computer Science', 'Web Development', 2),
+('Engineering', 'Electrical Engineering', 3),
+('Business', 'Marketing', 1),
+('Business', 'Finance', 2),
+('Engineering', 'Mechanical Engineering', 1);
+
+
+--Inner Join Query
+SELECT students1.fname, students1.lname, courses.branch, courses.course_name
+FROM students1
+INNER JOIN courses
+ON students1.student_id = courses.student_id;
+
+
+SELECT students1.fname, students1.lname, courses.branch, courses.course_name
+FROM students1
+INNER JOIN courses
+WHERE students1.student_id = courses.student_id;
+
+--left join Query
+SELECT students1.fname, students1.lname, courses.branch, courses.course_name
+FROM students1
+LEFT JOIN courses
+ON students1.student_id = courses.student_id;
+
+--right Join
+SELECT students1.fname, students1.lname, courses.branch, courses.course_name
+FROM students1
+RIGHT JOIN courses
+ON students1.student_id = courses.student_id;
+
+--full join 
+SELECT students1.fname, students1.lname, courses.branch, courses.course_name
+FROM students1
+FULL JOIN courses
+ON students1.student_id = courses.student_id;
+
+-----------------------------autocommit commit rollback-----------------
+commit; (safe point)
+set autocommit = off;  -- this will not create a safe point point (not saved automatically)
+delete from students;
+rollback (undo to the safe point);
+
+-----------------------------stored procedure-----------------
+
+A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
+So if you have an SQL query that you write over and over again, save it as a stored procedure, and then just call it to execute it.
+You can also pass parameters to a stored procedure, so that the stored procedure can act based on the parameter value(s) that is passed.
+
+
+DELIMITER &&  
+CREATE PROCEDURE get_merit_student ()  
+BEGIN  
+    SELECT * FROM student_info WHERE marks > 70;  
+    SELECT COUNT(stud_code) AS Total_Student FROM student_info;    
+END &&  
+DELIMITER ;  
+
+
+CALL get_merit_student()
+
+
+DELIMITER &&  
+CREATE PROCEDURE get_student (IN var1 INT)  
+BEGIN  
+    SELECT * FROM student_info LIMIT var1;  
+    SELECT COUNT(stud_code) AS Total_Student FROM student_info;    
+END &&  
+DELIMITER ;  
+
+ CALL get_student(4);  
+ 
+ SHOW PROCEDURE STATUS WHERE db = 'mystudentdb';  
+ 
+ DROP PROCEDURE [ IF EXISTS ] procedure_name;    
+ 
+ DROP PROCEDURE display_marks; 
+
+
+----------------------------Views--------------
+views is a virtual table based on the result of a query
+the data in the views could be from one or more table results 
+views are not real  but they interacts as like a real one 
+Note: any changes done in the real table will be affected in the view as well
+but if you are doing the same in the actual table you need to update in all the real tables
+
+select * from students;
+
+lets create a view of first name and last name of studets 
+
+create view student_attendance as select fname, lname from students;
+
+SHOW CREATE VIEW student_attendance;
+
+select * from student_attendance;
+
+select * from student_attendance order by lname asc;
+
+insert a data inside a table and check the view which will update automatically 
+
+ALTER VIEW student_attendance (ProductName, Price, Location) AS SELECT ProductName, Price, Location FROM dispatches_data;
+
+drop view  student_attendance;
+
+select fname, lname, concat(fname, " ", lname) as fullname; 
+
+create table timeTest(mydate Date,mytime time, mydatetime datetime);
+
+insert into timeTest(mydate) values ('2023-03-30');
+insert into timeTest(time) values ('11:25:39');
+
+SELECT now();  -- date and time
+SELECT curdate(); --date
+SELECT curtime(); --time in 24-hour format
+
+-- returns 1-7 (integer), where 1 is Sunday and 7 is Saturday
+SELECT dayofweek('2018-12-12');
+
+-- returns the string day name like Monday, Tuesday, etc
+SELECT dayname(now());
+
+-- This will assume time to be 12am
+SELECT unix_timestamp('2018-12-09');
+
+-- You can specify an exact timestamp to be converted down to the second
+SELECT unix_timestamp('2018-12-09 14:53:21');
+
+-- calling unix_timestamp without a parameter will be like calling it for current timestamp
+SELECT unix_timestamp(); -- same as SELECT unix_timestamp(now());
+
+-----------------------How to take the database dump and restore that----------------------
+
+to take a dump of data use command prompt
+
+mysqldump -u root -p testdb > c:\testdb.sql  
+Enter password: **********  
+
+
+to import the dump 
+mysql -u root -p testdb_copy < c:\testdb.sql  
+Enter password: **********
+
+
+To create a full backup of a MySQL database:
+mysqldump -u [username] -p [database_name] > [backup_file_name].sql
+
+To create a backup of a specific table in a MySQL database:
+mysqldump -u [username] -p [database_name] [table_name] > [backup_file_name].sql
+
+To create a compressed backup of a MySQL database:
+mysqldump -u [username] -p [database_name] | gzip > [backup_file_name].sql.gz
+
+mysqldump -u root -p --all -hsr | xz > all.sql.xz
+
+To restore a MySQL database from a backup file:
+mysql -u [username] -p [database_name] < [backup_file_name].sql
+
+
+Expoerting the data from workbench open workbench connect to database--> server --> data export and import
+
+
+
+**************************************************END ***********************************************************
+
+
+
+**************************************************Class Practise*************************************************
+
+show create database hsr; -- create database
+show databases; -- list all the databases available
+use hsr; -- select database
+drop schema hsr; -- delete database 
+show tables; -- list all the tables from selected database CLI
+show databases like '%b'; --  list all the database name ends with b
+show databases like 'e%'; --  list all the database name start with e
+show databases like "hsr"; -- list database where name is hsr 
+show databases like "%s%"; -- list all the database which name include s
+show tables like "%ry";  -- list table which end with ry
+SHOW TaBlES; -- list of all the tables  
+describe students; -- show the  
+desc students; -- Describe table 
+select * from students; -- select all the columns from the table
+use world; -- select database 
+select * from hsr.students; -- show data from table students 
+use hsr; -- select database 
+desc students; -- Describe table 
+
+insert into students(id,name,phone,marks,email,city) 
+values(1,"xyz",987654321,67,"rahul@gmail.com","bangalore"); -- insert data 
+
+select * from students;
+insert into students() values(); -- insert null values (default values) 
+
+truncate table students; -- delete all he table data
+
+insert into students(id,name,phone,marks,email,city) 
+values(1,"rahul",9876543210,67,"rahul@gmail.com","bangalore"),
+	  (2,"mark",87654321888,45,"mark@gmail.com","mysore"),
+	  (3,"joe",765432314578,28,"joe@gmail.com","bangalore"),
+	  (4,"david",6587314578,98,"david@gmail.com","hubli"),
+	  (5,"scot",98632314578,48,"scot@gmail.com","dharwad"); -- insert multiple rows 
+      
+alter table students add grade varchar(45); -- add new column 
+UPDATE students SET grade = 'B' WHERE id = 1;  -- insert some value in the new inserted column 
+SET SQL_SAFE_UPDATES = 0; -- remove lock from table  
+UPDATE students SET grade = 'C'; -- set a common value to all rows
+
+ALTER TABLE students  
+ADD stud_add varchar(100) 
+AFTER name,  
+ADD stud_age int(100) 
+AFTER email ; -- add a new column at a specific postion 
+
+ALTER TABLE students MODIFY stud_age varchar(50) NULL; -- change column datatype 
+
+ALTER TABLE students DROP COLUMN stud_age;   -- delete specific column 
+CREATE TABLE student_dummy SELECT * FROM students; -- create a table specific to other one and add data as well 
+
+select name, email from students;
+select name, email from students where name="rahul";
+SELECT * FROM students WHERE name LIKE 'r%';
+select * FROM students where marks <35;
+select * FROM students where marks > 80 and marks <= 98;
+select * from students;
+select distinct city from students;
+SELECT COUNT(*) FROM students;
+SELECT COUNT(DISTINCT city) FROM students;
+SELECT * FROM students WHERE name='rahul' or city='bangalore';
+SELECT * FROM students WHERE NOT city !='bangalore';
+SELECT * FROM students WHERE name='raHul' and (City='BangAlore' OR City='MysoRe');
+SELECT * FROM students ORDER BY marks ;
+SELECT * FROM students ORDER BY marks DESC;
+SELECT * FROM students ORDER BY marks asc;
+SELECT * FROM students WHERE city IS not NULL;
+SELECT * FROM students limit 3;
+SELECT * FROM students ORDER BY marks DESC limit 1;
+SELECT MIN(marks) AS fail_student FROM students;
+SELECT max(marks) AS pass FROM students;
+SELECT AVG(marks) FROM students;
+SELECT sum(marks) FROM students;
+SELECT * FROM students WHERE city IN ('mysore', 'dharwad', 'hubli');
+SELECT * FROM students WHERE city NOT IN ('mysore', 'dharwad', 'UK');
+select * from world.city where name in ('mysore', 'bangalore', 'hubli');
+SELECT * FROM hsr.students WHERE city IN (select name from world.city);
+
+SELECT * FROM hsr.students WHERE marks BETWEEN 10 AND 60;
+use hsr;
+SELECT name AS IstudentName, marks AS std_marks FROM students;
+
+SELECT name, concat(" name :",name," email :",email," phone :",phone)  AS details FROM students;
+
+#update queries
+use hsr;
+SET SQL_SAFE_UPDATES = 0;
+UPDATE students SET email = 'rahul123@yahoo.com' WHERE id = 1;
+
+UPDATE students SET email = 'rahul@gmail.com', phone=9876545776 WHERE id = 1;
+UPDATE students SET stud_age=18;
+
+
+
+
+set autocommit = off;  -- this will not create a safe point point (not saved automatically)
+commit; #(safe point)
+delete from students;
+SELECT * FROM hsr.students;
+rollback; #(undo to the safe point)
+
+
+DELETE FROM students where name IS NULL ;
+DELETE FROM students;
+rollback;
+truncate students;
+drop table students;
+create table student select * from hsr.student_dummy;
+select * from student;
+commit;
+
+
+CREATE TABLE Persons2 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    UNIQUE (ID)
+);
+desc persons2;
+INSERT INTO Persons2 ( Id, LastName, FirstName, Age) VALUES (1, 'Stephen', 'Computer', 24);
+select * from persons2;
+delete from persons2 where id=2;
+ALTER TABLE Persons2 ADD UNIQUE (LastName);
+
+
+CREATE TABLE studprim (
+    id int PRIMARY KEY,
+    name varchar(50) not null,
+    age int,
+    email varchar(100)
+);
+desc studprim;
+INSERT INTO studprim ( id, name, age) VALUES ( 3,'rahul', 24);
+select * from studprim;
+ALTER TABLE studprim DROP PRIMARY KEY;
+
+
+CREATE TABLE Department(
+    DeptNo int PRIMARY KEY,
+    DName varchar(266),
+    Location varchar(266)
+);
+
+CREATE TABLE Employee(
+    EmpNo int,
+    EmpName varchar(266),
+    Salary int,
+    DeptNo int,
+    FOREIGN KEY (DeptNo) REFERENCES Department(DeptNo)
+);
+desc hsr.Employee;
+desc department;
+
+select * from employee;
+select * from department;
+
+-- Adding a department
+INSERT INTO Department (DeptNo, DName, Location)
+VALUES (1, 'Sales', 'New York');
+
+-- Adding employees
+INSERT INTO Employee (EmpNo, EmpName, Salary)
+VALUES (1001, 'John Doe', 50000);
+
+INSERT INTO Employee (EmpNo, EmpName, Salary, DeptNo)
+VALUES (1002, 'Jane Smith', 60000, 1);
+
+ALTER TABLE Employee
+ADD FOREIGN KEY (DeptNo) REFERENCES department(DeptNo);
+
+commit;
+
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
+
+ALTER TABLE Persons AUTO_INCREMENT=100;
+desc Persons;
+INSERT INTO Persons (FirstName,LastName)
+VALUES ('Majukar','Rahul');
+select * from persons;
+
+
+
+
+
+
+
+
+
+
+
+
+alter table employee modify EmpNo int auto_increment;
+ALTER TABLE employee modify COLUMN EmpNo int auto_increment;
+
+ALTER TABLE employee MODIFY COLUMN EmpNo INT auto_increment;
+ALTER TABLE employee MODIFY EmpNo INT AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE employee AUTO_INCREMENT=100;
+
+SET foreign_key_checks = 0;
+ALTER TABLE employee MODIFY COLUMN empno BIGINT NOT NULL AUTO_INCREMENT;
+SET foreign_key_checks = 1;
+
+desc employee;
+
+SET foreign_key_checks = 0;
+
+use hsr;
+
+CREATE TABLE Persons5 (
+    ID int NOT NULL,
+    LName varchar(255) NOT NULL,
+    FName varchar(255),
+    Age int,
+    CONSTRAINT CHK_Person CHECK (Age>=18 AND Age<=100));
+    desc persons5;
+    INSERT INTO Persons5(Id, LName, Age) VALUES (1,'Robert', 28), (2, 'Joseph', 35), (3, 'Peter', 40);  
+    INSERT INTO Persons5(Id, LName, Age) VALUES (10,'Robert', 90);
+     SHOW CREATE TABLE Persons5;  
+     select * from persons5;
+     
+     ALTER TABLE Persons5 ALTER fname SET DEFAULT 'not mentioned';
+     ALTER TABLE Persons5 ADD joining_date date NOT NULL default (CURRENT_DATE); 
+     select curdate();
+     select (CURRENT_DATE);
+     
+     CREATE TABLE Shirts (id INT PRIMARY KEY AUTO_INCREMENT,name VARCHAR(35),size ENUM('small', 'medium', 'large', 'x-large'));
+	desc shirts;
+    INSERT INTO Shirts(id, name, size)VALUES (1,'t-shirt', 'medium'),(2, 'casual-shirt', 'small'),(3, 'formal-shirt', 'large');  
+    select * from shirts;
+	INSERT INTO Shirts(id, name, size)VALUES (10,'t-shirt', 'XXXl');
+    
+    CREATE INDEX idx_name ON Shirts(name);
+SELECT * FROM Shirts USE INDEX(idx_name); 
+show index from shirts;
+use hsr;
+
+CREATE TABLE students1 (
+  student_id INT AUTO_INCREMENT PRIMARY KEY,
+  fname VARCHAR(50) NOT NULL,
+  lname VARCHAR(50) NOT NULL,
+  city VARCHAR(50) NOT NULL
+);
+
+drop table students1;
+desc students1;
+
+
+CREATE TABLE students1 (
+  student_id INT AUTO_INCREMENT PRIMARY KEY,
+  fname VARCHAR(50) NOT NULL,
+  lname VARCHAR(50) NOT NULL,
+  city VARCHAR(50) NOT NULL
+);
+
+INSERT INTO students1 (fname, lname, city) VALUES
+('John', 'Doe', 'New York'),
+('Jane', 'Doe', 'Los Angeles'),
+('Bob', 'Smith', 'Chicago'),
+('rahul', 'Majukar', 'Bangalore');
+
+INSERT INTO students1 (fname, lname, city) VALUES('rahul', 'Majukar', 'Bangalore');
+
+CREATE TABLE courses (
+  course_id INT AUTO_INCREMENT PRIMARY KEY,
+  branch VARCHAR(50) NOT NULL,
+  course_name VARCHAR(50) NOT NULL,
+  student_id INT NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES students1(student_id)
+);
+
+INSERT INTO courses (branch, course_name, student_id) VALUES
+('Computer Science', 'Database Systems', 1),
+('Computer Science', 'Web Development', 2),
+('Engineering', 'Electrical Engineering', 3),
+('Business', 'Marketing', 1),
+('Business', 'Finance', 2),
+('Engineering', 'Mechanical Engineering', 1);
+
+select * from courses;
+
+INSERT INTO courses (branch, course_name) VALUES
+('Computer Science', 'Database Systems');
+
+SELECT courses.course_id,students1.student_id,students1.fname, 
+students1.lname,courses.branch, courses.course_name
+FROM students1
+INNER JOIN courses ON students1.student_id = courses.student_id;
+
+DELIMITER &&  
+CREATE PROCEDURE get_merit_student ()  
+BEGIN  
+    SELECT * FROM student WHERE marks > 70;  
+      
+END &&  
+DELIMITER ;
+use hsr;
+call get_merit_student();
+    
+ use joins;
+
+CREATE TABLE students (
+  student_id INT NOT NULL PRIMARY KEY,
+  student_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE departments (
+  department_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  student_id INT NOT NULL,
+  department_name VARCHAR(255) NOT NULL);
+
+
+-- Insert 5 rows into the students table
+INSERT INTO students (student_id, student_name)
+VALUES
+    (1001, 'A'),
+    (1002, 'B'),
+    (1003, 'C'),
+    (1004, 'D');
+
+select * from students;
+-- Insert corresponding rows into the departments table
+INSERT INTO departments (student_id, department_name)
+VALUES
+    (1004, 'Mathematics'),
+    (1005, 'Mathematics'),
+    (1006, 'History'),
+    (1007, 'Physics'),
+    (1008, 'Computer Science');
+	
+	select * from departments;
+    
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+inner JOIN departments
+ON students.student_id = departments.student_id;
+
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+LEFT JOIN departments
+ON students.student_id = departments.student_id;
+
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+RIGHT JOIN departments
+ON students.student_id = departments.student_id;
+
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+FULL Outer JOIN departments
+ON students.student_id = departments.student_id;
+
+
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+LEFT JOIN departments
+ON students.student_id = departments.student_id
+unionstudent
+SELECT students.student_id, students.student_name, departments.department_name
+FROM students
+RIGHT JOIN departments
+ON students.student_id = departments.student_id
+WHERE students.student_id IS NULL;
+    
+    
+    
